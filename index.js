@@ -88,11 +88,11 @@ client.on("message", async message => {
                             return;
                         } else { // Email doesn't exist and can be safely stored in db
                             // SEND E-MAIL
-                            // sendEmail(server, email_address, code);
+                            sendEmail(server, email_address, code);
 
                             let server_date = new Date().toLocaleTimeString();
                             con.query(sql = `INSERT INTO main (server_id, user_id, auth_code, email) VALUES ('${message.guild.id}', '${message.author.id}', '${code}', '${args[0]}')`);
-                            console.log("[" + server_date + "]: Email Sent to " + email_address + " for " + server + " (" + message.guild.id + "). ");
+                            console.log("[" + server_date + "]: Email Sent to " + email_address + " for " + server + " (" + message.guild.id + "). " + code);
                             
 
                                               

@@ -14,3 +14,7 @@ Server-side Requirements:
 To Do:
 - !gkallowed: fetch current whitelist domain from database
 - Emails with "." separates are allowed. Is that ok? (since @gmail domains are blocked anywho)
+
+
+Be aware of:
+- Bruteforce attack? Is it worth it? Or let server admins handle message spam?
