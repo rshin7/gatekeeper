@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 03:19 AM
+-- Generation Time: Jul 14, 2020 at 07:25 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -50,7 +50,7 @@ INSERT INTO `main` (`id`, `server_id`, `user_id`, `auth_code`, `email`) VALUES
 
 CREATE TABLE `whitelist` (
   `id` int(11) NOT NULL,
-  `server_id` text NOT NULL,
+  `server_id` varchar(35) NOT NULL,
   `whitelist` varchar(40) NOT NULL,
   `role_id` text NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
@@ -80,7 +80,7 @@ ALTER TABLE `main`
 --
 ALTER TABLE `whitelist`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `server_id` (`server_id`) USING HASH;
+  ADD UNIQUE KEY `server_id` (`server_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
