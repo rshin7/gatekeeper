@@ -155,13 +155,15 @@ client.on("message", async message => {
                         message.member.roles.add(db_roleid); 
                         // var role = message.guild.roles.cache.find(role => role.name === "Verified"); <- Alternative way
                         console.log(server_date);
-                        console.log("Auth Success for user: " + message.author.id + " on server: " + message.guild.id);
+                        console.log("auth success for user: " + message.author.id + " on server: " + message.guild.id);
                         console.log("--");
                         message.delete();
                         return;
                     })
                 } else {
-                    console.log("bad match");
+                    console.log(server_date);
+                    console.log("auth fail for user: " + message.author.id + " on server: " + message.guild.id + " " + user_input + "=/=" + db_code);
+                    console.log("--");
                     return;
                 }
             } else {
