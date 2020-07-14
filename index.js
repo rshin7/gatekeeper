@@ -84,13 +84,15 @@ client.on("message", async message => {
     
                     // SEND E-MAIL
                     sendEmail(server, email_address, code)
-    
-                    // DEBUGGING PURPOSE
+                    
                     console.log(server_date); // Timestamp
-                    console.log(args[0]); // Input Email
-                    console.log(code); // Random Verification Code 
-                    console.log("Server ID: " + message.guild.id); // Server ID
-                    console.log("User ID: " + message.author.id); // User ID
+                    console.log("E-mail Sent to " + email_address + " for " + server);
+                    console.log("--");
+                    // DEBUGGING PURPOSE
+                    // console.log(args[0]); // Input Email
+                    // console.log(code); // Random Verification Code 
+                    // console.log("Server ID: " + message.guild.id); // Server ID
+                    // console.log("User ID: " + message.author.id); // User ID
         
                     const embed = new MessageEmbed()
                         .setTitle('Gatekeeper - Email Verification Bot')
@@ -132,11 +134,11 @@ client.on("message", async message => {
         con.query(`SELECT auth_code FROM main WHERE server_id = '${message.guild.id}' AND user_id = '${message.author.id}'`, (err, results) => {
             if(err) throw err;
             if (results.length > 0) {
-                console.log('server_id: ' + message.guild.id);
-                console.log('user_id: ' + message.author.id)
+                // console.log('server_id: ' + message.guild.id);
+                // console.log('user_id: ' + message.author.id)
                 let db_code = results[0].auth_code;
-                console.log('usr code: ' + user_input);
-                console.log('db code: ' + db_code);
+                // console.log('usr code: ' + user_input);
+                // console.log('db code: ' + db_code);
 
                 if(user_input === db_code) { // User submitted verification equals to one in database
                     con.query(`SELECT role_id FROM whitelist WHERE server_id = '${message.guild.id}'`, (err, rows) => { // find server submitted role_id
@@ -144,7 +146,9 @@ client.on("message", async message => {
                         let db_roleid = rows[0].role_id;
                         message.member.roles.add(db_roleid); 
                         // var role = message.guild.roles.cache.find(role => role.name === "Verified"); <- Alternative way
-                        console.log("perfect match");
+                        console.log(server_date);
+                        console.log("Auth Success for " + message.author.id + " on server: " + message.guild.id);
+                        console.log("--");
                         message.delete();
                         return;
                     })
