@@ -26,19 +26,20 @@ var con = mysql.createConnection({
 })
 
 const usedCommandRecently = new Set();
-const server_date = new Date();
 
 con.connect(err => {
     if(err) throw err;
-    console.log(`----------------------------------`);
-    console.log("Connected to Database.");
+    let server_date = new Date().toLocaleTimeString();
+    console.log(`---------------------------------------------`);
+    console.log("[" + server_date + "]: " + "Connection to Database.. OK");
 });
 
 client.on("ready", () => {
-    console.log(`${client.user.username} is Online.`);
-    console.log('v' + process.env.GK_VERSION)
-    console.log(`----------------------------------`);
-    client.user.setActivity("gkbot.net", {
+    let server_date = new Date().toLocaleTimeString();
+    console.log("[" + server_date + "]: " + "Connection to Discord.. OK");
+    console.log("[" + server_date + "]: " + client.user.username + ' v' + process.env.GK_VERSION)
+    console.log(`---------------------------------------------`);
+    client.user.setActivity("www.gkbot.net", {
         type: "LISTENING"
       });
 })
@@ -81,15 +82,18 @@ client.on("message", async message => {
                     
                     con.query(`SELECT email FROM main WHERE email = '${email_address}'`, (err, result) => { // Check if Email Address Exists
                         if(result.length > 0) {
-                            message.reply("Sorry this email has been used before.");
+                            if (err) throw err;
+                            // This message is executing even if email has never been used before.
+                            // message.reply("Sorry this email has been used before.");
+                            return;
                         } else { // Email doesn't exist and can be safely stored in db
                             // SEND E-MAIL
                             // sendEmail(server, email_address, code);
 
+                            let server_date = new Date().toLocaleTimeString();
                             con.query(sql = `INSERT INTO main (server_id, user_id, auth_code, email) VALUES ('${message.guild.id}', '${message.author.id}', '${code}', '${args[0]}')`);
-                            console.log(server_date); // Timestamp
-                            console.log("E-mail Sent to " + email_address + " for " + server);
-                            console.log("--");
+                            console.log("[" + server_date + "]: Email Sent to " + email_address + " for " + server + " (" + message.guild.id + "). ");
+                            
 
                                               
                             message.author
@@ -123,7 +127,7 @@ client.on("message", async message => {
                         .setColor(0xff0000)
                         .setURL('https://www.gkbot.net/')
                         .addFields(
-                            { name: message.guild.name, value: 'Check your email for your verification code and further instructions. Please check your spam/junk folders if your code is not in your inbox!!' },
+                            { name: message.guild.name, value: 'Check your email for your verification code and further instructions. The email will be from noreply@gkbot.net' },
                         )
                         .setFooter('Powered by Gatekeeper');
 
@@ -151,19 +155,18 @@ client.on("message", async message => {
                 if(user_input === db_code) { // User submitted verification equals to one in database
                     con.query(`SELECT role_id FROM whitelist WHERE server_id = '${message.guild.id}'`, (err, rows) => { // find server submitted role_id
                         if(err) throw err;
+                        
+                        let server_date = new Date().toLocaleTimeString();
                         let db_roleid = rows[0].role_id;
                         message.member.roles.add(db_roleid); 
                         // var role = message.guild.roles.cache.find(role => role.name === "Verified"); <- Alternative way
-                        console.log(server_date);
-                        console.log("auth success for user: " + message.author.id + " on server: " + message.guild.id + " " + user_input + "=" + db_code);
-                        console.log("--");
+                        console.log("[" + server_date + "]: Auth success for " + message.author.id + " on " + message.guild.name + " (" + message.guild.id + "). " + user_input + "=" + db_code);
                         message.delete();
                         return;
                     })
                 } else {
-                    console.log(server_date);
-                    console.log("auth fail for user: " + message.author.id + " on server: " + message.guild.id + " " + user_input + "=/=" + db_code);
-                    console.log("--");
+                    let server_date = new Date().toLocaleTimeString();
+                    console.log("[" + server_date + "]: Auth failed for " + message.author.id + " on " + message.guild.name + " (" + message.guild.id + "). " + user_input + "=/=" + db_code);
                     return;
                 }
             } else {
@@ -173,34 +176,44 @@ client.on("message", async message => {
 
         });
     } else if (cmd === 'gkwhitelist') { // Administrator Command
-        if (!message.member.hasPermission("ADMINISTRATOR") || !args.length) {
+        if (!message.member.hasPermission("ADMINISTRATOR") || !args.length || args.length > 2) {
             message.reply("Ran into a problem. Either your parameters are wrong, or you're not the Server Administrator.");
             // console.log('User is not Admin OR invalid parameters.');
             return;
         } else {
-            const email_notallowed = ["@yahoo.com", "@protonmail.com", "@gmail.com", "@hotmail.com"];
-            if (email_notallowed.some(word => message.content.includes(word))) {
-                message.reply("Sorry but our service is not for the verification of free email providers.");
-                return;
-            }
-
-            user_whitelist = args[0];
-            user_role = args[1];
-
-
-            sql = `SELECT * FROM whitelist WHERE server_id = '${message.guild.id}'`
-            
-            con.query(sql, function(err, results) {
-                if (err) throw err;
-                numRows = results.length;
-                if (numRows = null) {
-                    console.log('has it already');
-                } else { // hasit
-                    sql = `INSERT INTO whitelist (server_id, whitelist, role_id) VALUES ('${message.guild.id}', '${user_whitelist}', '${user_role}')`
-                    con.query(sql, console.log);
+            con.query(`SELECT whitelist FROM whitelist WHERE server_id = '${message.guild.id}'`, (err, rows) => {
+            if (err) throw err;
+            if (rows.length > 0) {
+                message.reply("This server already has a whitelist.");
+            } else {
+                const email_notallowed = ["@yahoo.com", "@protonmail.com", "@gmail.com", "@hotmail.com"];
+                if (email_notallowed.some(word => message.content.includes(word))) {
+                    message.reply("Sorry but our service is not for the verification of free email providers.");
+                    return;
                 }
-            });
-            message.reply("Your whitelist request has been received.")
+    
+                user_whitelist = args[0];
+                user_role = args[1];
+    
+    
+                sql = `SELECT * FROM whitelist WHERE server_id = '${message.guild.id}'`
+                
+                con.query(sql, function(err, results) {
+                    if (err) throw err;
+                    numRows = results.length;
+                    if (numRows = null) {
+                        console.log('has it already');
+                    } else { // hasit
+                        let server_date = new Date().toLocaleTimeString();
+                        sql = `INSERT INTO whitelist (server_id, whitelist, role_id) VALUES ('${message.guild.id}', '${user_whitelist}', '${user_role}')`
+                        con.query(sql);
+                        console.log("[" + server_date + "]: Whitelist '" + user_whitelist + "' added for " + message.guild.name + " (" + message.guild.id + ") ");
+                    }
+                });
+                message.reply("Your whitelist request has been received.")
+            }
+            })
+
         }
 
     } else if (cmd == 'gkhelp') {
@@ -212,7 +225,6 @@ client.on("message", async message => {
             { name: '!gkwhitelist [@domain] [roleID]', value: 'Adds desired domain and roleID to our whitelist. Can only add one domain (for now).' },
             { name: '!gkemail [email]', value: 'Sends a verification code to the given email.' },
             { name: '!gkverify [code]', value: 'Checks if inputted code matches one generated by Gatekeeper.' },
-            // { name: 'Current Time', value: server_date },
         )
         .setFooter('Powered by Gatekeeper v' + process.env.GK_VERSION);
         message.channel.send(embed);
@@ -228,7 +240,7 @@ sendEmail = (server, email_address, code) =>
       from: 'noreply@gkbot.net',
       subject: 'Gatekeeper Verification Code for ' + server,
       to: email_address,
-      html: 'Discord Server: '+ server +'<br />Your verification code is: ' + code + ' <br /> Verify your account by typing in !gkverify [code] back in the server. <br /> <br />Note: This inbox is NOT monitored. For help visit our website or contact your server mods.' + '<br />Powered by <a href="https://www.gkbot.net/">Gatekeeper - Discord Server Email Verification Bot</a>'
+      html: 'Discord Server: '+ server +'<br />Your verification code is: ' + code + ' <br /> Verify your account by typing in !gkverify ' + code + ' back in the server. <br /> <br />Note: This inbox is NOT monitored. This email was automatically sent on behalf of ' + server + '. For help visit our website or contact your server administrator.' + '<br />Powered by <a href="https://www.gkbot.net/">Gatekeeper - Discord Email Verification Bot</a>'
     })
     .then(
       () => {},
