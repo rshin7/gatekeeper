@@ -79,15 +79,42 @@ client.on("message", async message => {
                     let email_address = args[0];
                     let server = message.guild.name;
     
-                    sql = `INSERT INTO main (server_id, user_id, auth_code, email) VALUES ('${message.guild.id}', '${message.author.id}', '${code}', '${args[0]}')`
-                    con.query(sql, console.log);
-    
-                    // SEND E-MAIL
-                    sendEmail(server, email_address, code)
+                    // sql = `INSERT INTO main (server_id, user_id, auth_code, email) VALUES ('${message.guild.id}', '${message.author.id}', '${code}', '${args[0]}')`
+                    // con.query(sql, console.log);
                     
-                    console.log(server_date); // Timestamp
-                    console.log("E-mail Sent to " + email_address + " for " + server);
-                    console.log("--");
+                    con.query(`SELECT email FROM main WHERE email = '${email_address}'`, (err, result) => { // Check if Email Address Exists
+                        if(result.length > 0) {
+                            message.reply("Sorry this email has been used before.");
+                        } else { // Email doesn't exist and can be safely stored in db
+                            // SEND E-MAIL
+                            sendEmail(server, email_address, code);
+                            
+                            con.query(sql = `INSERT INTO main (server_id, user_id, auth_code, email) VALUES ('${message.guild.id}', '${message.author.id}', '${code}', '${args[0]}')`);
+                            console.log(server_date); // Timestamp
+                            console.log("E-mail Sent to " + email_address + " for " + server);
+                            console.log("--");
+
+                                              
+                            message.author
+                            .createDM()
+                            .then(dmchannel =>
+                            dmchannel
+                                .send(embed)
+                                .catch(reason => console.log(reason))
+                            )
+                            .catch(reason => console.log(reason));
+
+                            usedCommandRecently.add(message.author.id); // Add to Cooldown
+                    
+                            setTimeout(() => {
+                                usedCommandRecently.delete(message.author.id)
+                            }, 3600000) // one hour cooldown
+                            
+                            message.delete();
+                            return;
+                        }
+
+                    })
                     // DEBUGGING PURPOSE
                     // console.log(args[0]); // Input Email
                     // console.log(code); // Random Verification Code 
@@ -102,23 +129,7 @@ client.on("message", async message => {
                             { name: message.guild.name, value: 'Check your email for your verification code and further instructions. Please check your spam/junk folders if your code is not in your inbox!!' },
                         )
                         .setFooter('Powered by Gatekeeper');
-                  
-                    message.author
-                      .createDM()
-                      .then(dmchannel =>
-                        dmchannel
-                          .send(embed)
-                          .catch(reason => console.log(reason))
-                      )
-                      .catch(reason => console.log(reason));
-                    usedCommandRecently.add(message.author.id);
-                    
-                    setTimeout(() => {
-                        usedCommandRecently.delete(message.author.id)
-                    }, 3600000) // one hour cooldown
-                    
-                    message.delete();
-                    return;
+
                 }
             } 
             } else {
@@ -147,7 +158,7 @@ client.on("message", async message => {
                         message.member.roles.add(db_roleid); 
                         // var role = message.guild.roles.cache.find(role => role.name === "Verified"); <- Alternative way
                         console.log(server_date);
-                        console.log("Auth Success for " + message.author.id + " on server: " + message.guild.id);
+                        console.log("Auth Success for user: " + message.author.id + " on server: " + message.guild.id);
                         console.log("--");
                         message.delete();
                         return;

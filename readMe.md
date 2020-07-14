@@ -10,3 +10,6 @@ Website: [GKBot.net](https://www.gkbot.net)
 Server-side Requirements:
 - Node.js
 - MySQL
+
+To Do:
+- !gkallowed: fetch current whitelist domain from database
