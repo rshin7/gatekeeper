@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 03:00 AM
+-- Generation Time: Jul 14, 2020 at 03:19 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -61,8 +61,8 @@ CREATE TABLE `whitelist` (
 --
 
 INSERT INTO `whitelist` (`id`, `server_id`, `whitelist`, `role_id`, `date_created`) VALUES
-(4, '731624234010542091', '@columbia.edu', '731776430492614667', '2020-07-12'),
-(8, '732323367008469062', '@gmail.com', '732324780430327990', '2020-07-13');
+(4, '731624234010542091', '@columbia.edu', '731776430492614667', '2020-07-12 04:00:00'),
+(8, '732323367008469062', '@gmail.com', '732324780430327990', '2020-07-13 04:00:00');
 
 --
 -- Indexes for dumped tables
