@@ -53,7 +53,7 @@ CREATE TABLE `whitelist` (
   `server_id` text NOT NULL,
   `whitelist` varchar(40) NOT NULL,
   `role_id` text NOT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
