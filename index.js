@@ -185,7 +185,7 @@ client.on("message", async message => {
                     con.query(sql, console.log);
                 }
             });
-            message.reply("Succesfully added your whitelist rule. Please note you may only have one domain whitelisted.")
+            message.reply("Your whitelist request has been received.")
         }
 
     } else if (cmd == 'gkhelp') {
