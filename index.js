@@ -142,9 +142,9 @@ client.on("message", async message => {
         con.query(`SELECT auth_code FROM main WHERE server_id = '${message.guild.id}' AND user_id = '${message.author.id}'`, (err, results) => {
             if(err) throw err;
             if (results.length > 0) {
+                let db_code = results[0].auth_code;
                 // console.log('server_id: ' + message.guild.id);
                 // console.log('user_id: ' + message.author.id)
-                let db_code = results[0].auth_code;
                 // console.log('usr code: ' + user_input);
                 // console.log('db code: ' + db_code);
 
@@ -155,7 +155,7 @@ client.on("message", async message => {
                         message.member.roles.add(db_roleid); 
                         // var role = message.guild.roles.cache.find(role => role.name === "Verified"); <- Alternative way
                         console.log(server_date);
-                        console.log("auth success for user: " + message.author.id + " on server: " + message.guild.id + " " + user_input + "=/=" + db_code);
+                        console.log("auth success for user: " + message.author.id + " on server: " + message.guild.id + " " + user_input + "=" + db_code);
                         console.log("--");
                         message.delete();
                         return;
