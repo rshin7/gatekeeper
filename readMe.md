@@ -7,3 +7,6 @@ Example Use Case:
 
 Website: [GKBot.net](https://www.gkbot.net)
 
+Server-side Requirements:
+- Node.js
+- MySQL
