@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 03:19 AM
+-- Generation Time: Jul 14, 2020 at 03:30 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `main` (
   `id` int(11) NOT NULL,
-  `server_id` text NOT NULL,
-  `user_id` text NOT NULL,
+  `server_id` int(30) NOT NULL,
+  `user_id` int(30) NOT NULL,
   `auth_code` text NOT NULL,
   `email` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -40,7 +40,7 @@ CREATE TABLE `main` (
 --
 
 INSERT INTO `main` (`id`, `server_id`, `user_id`, `auth_code`, `email`) VALUES
-(65, '731624234010542091', '530602855455916050', 'G1H7BX', 'rs4078@columbia.edu');
+(65, 2147483647, 2147483647, 'G1H7BX', 'rs4078@columbia.edu');
 
 -- --------------------------------------------------------
 
@@ -50,9 +50,9 @@ INSERT INTO `main` (`id`, `server_id`, `user_id`, `auth_code`, `email`) VALUES
 
 CREATE TABLE `whitelist` (
   `id` int(11) NOT NULL,
-  `server_id` text NOT NULL,
+  `server_id` int(30) NOT NULL,
   `whitelist` varchar(40) NOT NULL,
-  `role_id` text NOT NULL,
+  `role_id` int(11) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -61,8 +61,7 @@ CREATE TABLE `whitelist` (
 --
 
 INSERT INTO `whitelist` (`id`, `server_id`, `whitelist`, `role_id`, `date_created`) VALUES
-(4, '731624234010542091', '@columbia.edu', '731776430492614667', '2020-07-12 04:00:00'),
-(8, '732323367008469062', '@gmail.com', '732324780430327990', '2020-07-13 04:00:00');
+(4, 2147483647, '@columbia.edu', 2147483647, '2020-07-12 04:00:00');
 
 --
 -- Indexes for dumped tables
@@ -80,7 +79,7 @@ ALTER TABLE `main`
 --
 ALTER TABLE `whitelist`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `server_id` (`server_id`) USING HASH;
+  ADD UNIQUE KEY `server_id` (`server_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
