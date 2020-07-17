@@ -1,7 +1,7 @@
 ## Gatekeeper - Custom Email Verification in Discord Servers
 
 <p align="center">
-<img src="dm.png">
+<img src="diagram.png">
 </p>
 
 Gatekeeper is a Discord* bot that allows server administrators to seamlessly integrate custom domain email verification.
@@ -17,6 +17,7 @@ Gatekeeper is a Discord* bot that allows server administrators to seamlessly int
 - This bot utilizes [MailGun](https://www.mailgun.com/) to send authentication emails, however it can be easily modified to use [SendGrid](https://www.npmjs.com/package/@sendgrid/mail) as well. 
     - You are free to implement something like [SMTPjs](https://www.smtpjs.com/) if you wish. 
 - This bot uses MySQL to store whitelists, authentication codes, and used emails. 
+
 
 ### Setting up Gatekeeper (Server-side)
 1. Use `npm i` to install package dependencies.
