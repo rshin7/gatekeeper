@@ -26,7 +26,7 @@ Gatekeeper is a Discord* bot that allows server administrators to seamlessly int
 
 ### Setting up Gatekeeper (Client-side)
 1. Add the bot to your server.
-2. Move the bot to the highesty role in server settings.
+2. Move the bot to the highest role in server settings.
 3. (As Administrator) execute command: `!gkwhitelist [@domain] [roleID]` anywhere.
     - Example: `!gkwhitelist @columbia.edu 731776430492614667` 
 
