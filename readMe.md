@@ -1,9 +1,13 @@
 ## Gatekeeper - Custom Email Verification in Discord Servers
 
-![GIF of Verification](in_action.gif)
+<p align="center">
+<img src="dm.png">
+</p>
+
+Gatekeeper is a Discord* bot that allows server administrators to seamlessly integrate custom domain email verification.
 
 
-Gatekeeper is a Discord bot that allows server administrators to seamlessly integrate custom domain email verification.
+**Discord is a communication platform similar to Slack*
 
 ### Example Use Case:
 - University Discord Server: Give a "Verified Student" role to members of the community that verify their school emails using Gatekeeper.
@@ -24,8 +28,11 @@ Gatekeeper is a Discord bot that allows server administrators to seamlessly inte
 1. Add the bot to your server.
 2. Move the bot to the highesty role in server settings.
 3. (As Administrator) execute command: `!gkwhitelist [@domain] [roleID]` anywhere.
-    - Example: `!gkwhitelist @columbia.edu 731776430492614667`
-        - [Don't know where to find roleID?](https://anidiots.guide/understanding/roles#role-code)        
+    - Example: `!gkwhitelist @columbia.edu 731776430492614667` 
+
+<p align="center">
+<img src="in_action.gif">
+</p>
 
 ### Available Commands
 - !gkhelp - lists all available commands
