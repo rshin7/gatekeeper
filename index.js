@@ -2,7 +2,7 @@ const { Client, DMChannel, MessageEmbed } = require("discord.js");
 const { config } = require("dotenv");
 const mysql = require("mysql");
 
-var API_KEY = '74b80a88a8c045030aa0d7e4b075692a-87c34c41-2cc336f2'; 
+var API_KEY = ''; 
 var DOMAIN = 'gkbot.net'; 
 
 const mgMail = require("mailgun-js")({apiKey: API_KEY, domain: DOMAIN});

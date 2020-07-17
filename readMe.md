@@ -16,7 +16,7 @@ Gatekeeper is a Discord bot that allows server administrators to seamlessly inte
 
 ### Setting up Gatekeeper (Server-side)
 1. Use `npm i` to install package dependencies.
-2. Enter correct API Keys and database credentials in `.env` file.
+2. Enter correct API Keys and database credentials in `.env` & line 5 and 6 of `index.js`.
 3. Import `db_dump.sql` into your MySQL database.
 4. Start server with `node index.js`.
 
