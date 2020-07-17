@@ -1,4 +1,8 @@
 ## Gatekeeper - Custom Email Verification in Discord Servers
+
+![GIF of Verification](in_action.gif)
+
+
 Gatekeeper is a Discord bot that allows server administrators to seamlessly integrate custom domain email verification.
 
 ### Example Use Case:
