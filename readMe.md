@@ -1,7 +1,7 @@
 ## Gatekeeper - Custom Email Verification in Discord Servers
 
 <p align="center">
-<img src="diagram.png">
+<img src="imgs/diagram.png">
 </p>
 
 Gatekeeper is a Discord* bot that allows server administrators to seamlessly integrate custom domain email verification.
@@ -32,7 +32,7 @@ Gatekeeper is a Discord* bot that allows server administrators to seamlessly int
     - Example: `!gkwhitelist @columbia.edu 731776430492614667` 
 
 <p align="center">
-<img src="in_action.gif">
+<img src="imgs/in_action.gif">
 </p>
 
 ### Available Commands
